@@ -1,0 +1,106 @@
+<!-- question_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question List</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #007bff;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="text-center mb-3">
+        <img src="https://oxu.uz/wp-content/uploads/2023/07/logo_fool_337_120.png" alt="Oxu Uz">
+    </div>
+    <h2 class="mb-4">Salom {{ name }}!</h2>
+
+    <div id="timer" class="text-center mb-3 alert alert-warning">Boshlandi!</div>
+<form method="post">
+    {% for question in questions %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ question.question_text }}</h5>
+
+                    {% csrf_token %}
+                    {% for choice in question.choices.all %}
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="choice{{ question.id }}" id="choice{{ choice.id }}" value="{{ choice.id }}">
+                            <label class="form-check-label" for="choice{{ choice.id }}">
+                                {{ choice.choice_text }}
+                            </label>
+                        </div>
+                    {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+    <div class="d-flex justify-content-between mx-3">
+        <div>
+            <a href="/" class="btn btn-success">Bosh Sahifa</a>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary mt-3">Yakunlash</button>
+        </div>
+    </div>
+    </form>
+</div>
+
+{% bootstrap_javascript %}
+<script>
+    var seconds = 1800; // set the countdown time in seconds
+
+    function updateTimer() {
+        if (seconds === 0) {
+            // Redirect or perform any action when the timer reaches zero
+            window.location.href = '/result'; // Change the URL or handle timeout as needed
+        } else {
+            var minutes = Math.floor(seconds / 60);
+            var remainingSeconds = seconds % 60;
+
+            var displayText = 'Test tugashiga ' + minutes + ' daqiqa ' + remainingSeconds + ' soniya qoldi';
+            document.getElementById('timer').innerText = displayText;
+            seconds--;
+        }
+    }
+
+    // Update the timer every second
+    setInterval(updateTimer, 1000);
+</script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!-- result.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .container {
+        background-color: #ffffff;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-top: 50px;
+    }
+
+    h2 {
+        color: #007bff;
+    }
+
+    .correct-answer {
+        color: #28a745;
+    }
+
+    .incorrect-answer {
+        color: #dc3545;
+    }
+
+    .alert-success {
+        font-weight: bold;
+    }
+
+    .badge-info {
+        background-color: #17a2b8;
+    }
+</style>
+
+</head>
+<body>
+<div class="container">
+    <div class="text-center mb-3">
+        <img src="https://oxu.uz/wp-content/uploads/2023/07/logo_fool_337_120.png" alt="Oxu Uz">
+    </div>
+    <h2>Sizning test natijangiz:</h2>
+    <div class="alert alert-success fw-bold">To'g'ri javoblar: {{ correct_answers }} ta
+        <span class="badge bg-info">
+            Jami: {{ total_questions }} ta savol
+        </span></div>
+    <p></p>
+
+    {% for detail in details %}
+    <div class="card mb-3">
+            <div class="card-body">
+                <p class="card-title fw-bold">{{ forloop.counter }}.{{ detail.question_text }}</p>
+                {% if detail.is_correct %}
+                    <p class="correct-answer">Sizning javobingiz: <b>{{ detail.your_answer }}</b></p>
+                {% else %}
+                    <p class="incorrect-answer">Sizning javobingiz: <b>{{ detail.your_answer }}</b> <span class="badge bg-success">To'g'ri javob: {{ detail.correct_answer }}</span></p>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+    <div class="text-center mt-5">
+    <a href="/" class="btn btn-success">
+        <i class="fa-solid fa-house"></i> Bosh sahifa
+    </a>
+</div>
+</div>
+
+{% bootstrap_javascript %}
+</body>
+</html>
